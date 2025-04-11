@@ -3,4 +3,6 @@ project(3dr)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(3dr main.cpp)
+add_executable(3dr
+        src/main.cpp
+)
