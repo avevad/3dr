@@ -34,4 +34,9 @@ add_executable(3dr src/main.cpp)
 target_include_directories(3dr PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(3dr PUBLIC 3dr-shared)
 
-install(TARGETS 3dr-shared 3dr)
+# Camera movement capture executable
+add_executable(3dr-ccapture src/main_ccapture.cpp)
+target_include_directories(3dr-ccapture PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(3dr-ccapture PUBLIC 3dr-shared)
+
+install(TARGETS 3dr-shared 3dr 3dr-ccapture)

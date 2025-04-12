@@ -119,4 +119,5 @@ namespace tdr {
     Canvas<Pixel>::Canvas(PixelType *pixels, ImageBounds img_size, ImageBounds offset, ImageBounds size)
         : pixels(pixels), img_size(img_size), offset(offset), size(size) { }
 
+    constexpr static inline ImageBounds DEFAULT_VIEWPORT_SIZE = {640, 480};
 }
