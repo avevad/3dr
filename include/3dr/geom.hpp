@@ -115,6 +115,14 @@ namespace tdr {
         Scalar dot(Vec3 vec) const {
             return x * vec.x + y * vec.y + z * vec.z;
         }
+
+        Vec3 cross(Vec3 vec) const {
+            return {
+                y * vec.z - z * vec.y,
+                z * vec.x - x * vec.z,
+                x * vec.y - y * vec.x
+            };
+        }
     };
 
     template<typename Scalar>
@@ -132,5 +140,7 @@ namespace tdr {
     using RealD = long double;
     using Vec3D = Vec3<RealD>;
     using Vec2D = Vec2<RealD>;
+
+    Vec3D rodrigues_rotate(Vec3D point, Vec3D axis, RealD angle);
 
 }

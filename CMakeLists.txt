@@ -3,7 +3,9 @@ project(3dr)
 
 set(CMAKE_CXX_STANDARD 23)
 
+find_package(PkgConfig REQUIRED)
 find_package(nlohmann_json 3.11.0 REQUIRED)
+pkg_check_modules(EVDEV libevdev REQUIRED)
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_compile_definitions(-DTDR_DEBUG_BUILD=1)
@@ -18,9 +20,13 @@ add_library(3dr-shared SHARED
         src/util.cpp
         src/camera.cpp
         src/renderer.cpp
+        src/geom.cpp
+        src/argparse.cpp
 )
 target_include_directories(3dr-shared PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(3dr-shared PUBLIC ${EVDEV_INCLUDE_DIRS})
 target_link_libraries(3dr-shared PUBLIC nlohmann_json::nlohmann_json)
+target_link_libraries(3dr-shared PUBLIC ${EVDEV_LIBRARIES})
 set_target_properties(3dr-shared PROPERTIES OUTPUT_NAME 3dr)
 
 # Main executable

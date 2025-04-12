@@ -1,6 +1,7 @@
 #pragma once
 #include <source_location>
 #include <string>
+#include <nlohmann/json.hpp>
 
 namespace tdr {
 
@@ -14,4 +15,6 @@ namespace tdr {
 
 #define TDR_DEBUG if (TDR_DEBUG_BUILD)
 #define TDR_ASSERT(WHAT) do { TDR_DEBUG check_that(WHAT, #WHAT); } while (0)
+
+    using Json = nlohmann::json;
 }

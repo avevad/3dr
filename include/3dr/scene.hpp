@@ -5,6 +5,7 @@
 #include <nlohmann/json.hpp>
 
 #include "geom.hpp"
+#include "util.hpp"
 
 namespace tdr {
 
@@ -26,8 +27,6 @@ namespace tdr {
 
         std::vector<Mesh> meshes;
     };
-
-    using Json = nlohmann::json;
 
     void from_json(const Json &json, Scene &scene);
     void from_json(const Json &json, Scene::Mesh &mesh);
