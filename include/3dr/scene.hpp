@@ -15,10 +15,17 @@ namespace tdr {
                 Vec3D coords;
             };
 
+            struct WireframeMaterial { };
+            struct SolidMaterial {
+                Vec3D color;
+            };
+            using Material = std::variant<WireframeMaterial, SolidMaterial>;
+
             using vx_id_t = std::size_t;
 
             struct Triangle {
                 vx_id_t u, v, w;
+                Material material;
             };
 
             std::vector<Vertex> vertices;

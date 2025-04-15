@@ -49,7 +49,18 @@ namespace tdr {
         TDR_ASSERT(json[0].is_number_integer());
         TDR_ASSERT(json[1].is_number_integer());
         TDR_ASSERT(json[2].is_number_integer());
-        triangle = {json[0], json[1], json[2]};
+        Scene::Mesh::Material material;
+        if (json.size() == 4) {
+            TDR_ASSERT(json[3].is_array());
+            auto col_json = json[3];
+            TDR_ASSERT(col_json[0].is_number());
+            TDR_ASSERT(col_json[1].is_number());
+            TDR_ASSERT(col_json[2].is_number());
+            material = Scene::Mesh::SolidMaterial {
+                col_json[0], col_json[1], col_json[2]
+            };
+        }
+        triangle = {json[0], json[1], json[2], material};
     }
 
     void to_json(Json &json, const Scene &scene) {
@@ -69,6 +80,9 @@ namespace tdr {
 
     void to_json(Json &json, const Scene::Mesh::Triangle &triangle) {
         json = {triangle.u, triangle.v, triangle.w};
+        if (auto *s_mt = std::get_if<Scene::Mesh::SolidMaterial>(&triangle.material)) {
+            json.push_back(Json{s_mt->color.x, s_mt->color.y, s_mt->color.z});
+        }
     }
 
 

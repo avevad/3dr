@@ -14,6 +14,9 @@ namespace tdr {
 
     private:
         ImageCoords from_viewport_coords(Vec2D coords);
+
+        void render_mesh_triangle(const Camera &camera, const Scene::Mesh &mesh, Scene::Mesh::Triangle triangle);
+        void rasterize_triangle(const Camera &camera, Vec3D u, Vec3D v, Vec3D w, Vec3D color);
         void rasterize_line(ImageCoords beg, ImageCoords end);
 
         Scene scene;
