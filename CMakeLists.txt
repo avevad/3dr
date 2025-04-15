@@ -39,4 +39,9 @@ target_include_directories(3dr-ccapture PUBLIC ${EVDEV_INCLUDE_DIRS})
 target_link_libraries(3dr-ccapture PUBLIC 3dr-shared)
 target_link_libraries(3dr-ccapture PUBLIC ${EVDEV_LIBRARIES})
 
+# OBJ -> JSON converter executable
+add_executable(3dr-convert src/main_convert.cpp)
+target_include_directories(3dr-convert PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(3dr-convert PUBLIC 3dr-shared)
+
 install(TARGETS 3dr-shared 3dr 3dr-ccapture)

@@ -52,5 +52,24 @@ namespace tdr {
         triangle = {json[0], json[1], json[2]};
     }
 
+    void to_json(Json &json, const Scene &scene) {
+        json = {{"m", Json(scene.meshes)}};
+    }
+
+    void to_json(Json &json, const Scene::Mesh &mesh) {
+        json = {
+            {"v", Json(mesh.vertices)},
+            {"t", Json(mesh.triangles)}
+        };
+    }
+
+    void to_json(Json &json, const Scene::Mesh::Vertex &vertex) {
+        json = {vertex.coords.x, vertex.coords.y, vertex.coords.z};
+    }
+
+    void to_json(Json &json, const Scene::Mesh::Triangle &triangle) {
+        json = {triangle.u, triangle.v, triangle.w};
+    }
+
 
 }

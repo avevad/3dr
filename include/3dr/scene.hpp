@@ -33,4 +33,9 @@ namespace tdr {
     void from_json(const Json &json, Scene::Mesh::Vertex &vertex);
     void from_json(const Json &json, Scene::Mesh::Triangle &triangle);
 
+    void to_json(Json &json, const Scene &scene);
+    void to_json(Json &json, const Scene::Mesh &mesh);
+    void to_json(Json &json, const Scene::Mesh::Vertex &vertex);
+    void to_json(Json &json, const Scene::Mesh::Triangle &triangle);
+
 }
