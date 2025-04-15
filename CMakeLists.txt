@@ -24,9 +24,7 @@ add_library(3dr-shared SHARED
         src/argparse.cpp
 )
 target_include_directories(3dr-shared PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_include_directories(3dr-shared PUBLIC ${EVDEV_INCLUDE_DIRS})
 target_link_libraries(3dr-shared PUBLIC nlohmann_json::nlohmann_json)
-target_link_libraries(3dr-shared PUBLIC ${EVDEV_LIBRARIES})
 set_target_properties(3dr-shared PROPERTIES OUTPUT_NAME 3dr)
 
 # Main executable
@@ -37,6 +35,8 @@ target_link_libraries(3dr PUBLIC 3dr-shared)
 # Camera movement capture executable
 add_executable(3dr-ccapture src/main_ccapture.cpp)
 target_include_directories(3dr-ccapture PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(3dr-ccapture PUBLIC ${EVDEV_INCLUDE_DIRS})
 target_link_libraries(3dr-ccapture PUBLIC 3dr-shared)
+target_link_libraries(3dr-ccapture PUBLIC ${EVDEV_LIBRARIES})
 
 install(TARGETS 3dr-shared 3dr 3dr-ccapture)

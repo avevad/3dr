@@ -42,6 +42,32 @@ namespace tdr {
 
     Camera::Camera(SpatialParams params) : params(params) { }
 
+    Camera Camera::default_for_viewport_size(ImageBounds viewport_size) {
+        auto w = static_cast<Vec3D::ScalarType>(viewport_size.x);
+        auto h = static_cast<Vec3D::ScalarType>(viewport_size.y);
+        if (w > h) {
+            Camera camera(
+                {
+                    .eye_pos = {0, 0, 0},
+                    .sight_dir = {0, 0, 1},
+                    .viewport_vert = {0, 1, 0},
+                    .viewport_horiz = {w / h, 0, 0}
+                }
+            );
+            return camera;
+        } else {
+            Camera camera(
+                {
+                    .eye_pos = {0, 0, 0},
+                    .sight_dir = {0, 0, 1},
+                    .viewport_vert = {0, h / w, 0},
+                    .viewport_horiz = {1, 0, 0}
+                }
+            );
+            return camera;
+        }
+    }
+
     void to_json(Json &json, const Camera &camera) {
         auto [e, d, h, v] = std::tie(
             camera.params.eye_pos, camera.params.sight_dir, camera.params.viewport_horiz, camera.params.viewport_vert

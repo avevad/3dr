@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
     std::ofstream viewport_out(out_path.value());
 
     Renderer renderer(scene, viewport);
-    Camera camera = Camera::default_for_viewport(viewport);
+    Camera camera = Camera::default_for_viewport_size(viewport.get_size());
     auto produce_frame = [&] {
         viewport.fill({0, 0, 0});
         renderer.render(camera);

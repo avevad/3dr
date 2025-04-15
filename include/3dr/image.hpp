@@ -120,4 +120,5 @@ namespace tdr {
         : pixels(pixels), img_size(img_size), offset(offset), size(size) { }
 
     constexpr static inline ImageBounds DEFAULT_VIEWPORT_SIZE = {640, 480};
+    constexpr static inline RealD DEFAULT_FRAMERATE = 60;
 }
