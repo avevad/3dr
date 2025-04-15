@@ -83,6 +83,7 @@ int main(int argc, char **argv) {
                     camera.rotate_about(camera.get_upwards_perpendicular(), DEFAULT_SPEED_ANGULAR);
                     break;
                 default:
+                    break;
                 }
             }
         } else if (res == -EAGAIN) {

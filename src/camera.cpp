@@ -92,8 +92,8 @@ namespace tdr {
         camera.params = {
             .eye_pos = {json["e"][0], json["e"][1], json["e"][2]},
             .sight_dir = {json["d"][0], json["d"][1], json["d"][2]},
-            .viewport_horiz = {json["h"][0], json["h"][1], json["h"][2]},
             .viewport_vert = {json["v"][0], json["v"][1], json["v"][2]},
+            .viewport_horiz = {json["h"][0], json["h"][1], json["h"][2]},
         };
     }
 
