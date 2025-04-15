@@ -3,9 +3,15 @@ project(3dr)
 
 set(CMAKE_CXX_STANDARD 23)
 
-find_package(PkgConfig REQUIRED)
 find_package(nlohmann_json 3.11.0 REQUIRED)
-pkg_check_modules(EVDEV libevdev REQUIRED)
+find_package(PkgConfig)
+if (PkgConfig_FOUND)
+    pkg_check_modules(EVDEV libevdev REQUIRED)
+endif ()
+
+if (NOT EVDEV_FOUND)
+    message(WARNING "libevdev not found -- won't build ccapture binary")
+endif ()
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_compile_definitions(-DTDR_DEBUG_BUILD=1)
@@ -33,15 +39,21 @@ target_include_directories(3dr PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(3dr PUBLIC 3dr-shared)
 
 # Camera movement capture executable
-add_executable(3dr-ccapture src/main_ccapture.cpp)
-target_include_directories(3dr-ccapture PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_include_directories(3dr-ccapture PUBLIC ${EVDEV_INCLUDE_DIRS})
-target_link_libraries(3dr-ccapture PUBLIC 3dr-shared)
-target_link_libraries(3dr-ccapture PUBLIC ${EVDEV_LIBRARIES})
+if (EVDEV_FOUND)
+    add_executable(3dr-ccapture src/main_ccapture.cpp)
+    target_include_directories(3dr-ccapture PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    target_include_directories(3dr-ccapture PUBLIC ${EVDEV_INCLUDE_DIRS})
+    target_link_libraries(3dr-ccapture PUBLIC 3dr-shared)
+    target_link_libraries(3dr-ccapture PUBLIC ${EVDEV_LIBRARIES})
+endif ()
 
 # OBJ -> JSON converter executable
 add_executable(3dr-convert src/main_convert.cpp)
 target_include_directories(3dr-convert PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(3dr-convert PUBLIC 3dr-shared)
 
-install(TARGETS 3dr-shared 3dr 3dr-ccapture)
+if (EVDEV_FOUND)
+    install(TARGETS 3dr-shared 3dr 3dr-ccapture 3dr-convert)
+else ()
+    install(TARGETS 3dr-shared 3dr 3dr-convert)
+endif ()
