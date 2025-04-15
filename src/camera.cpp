@@ -17,6 +17,10 @@ namespace tdr {
         };
     }
 
+    RealD Camera::distance_to_eye(Vec3D point) const {
+        return (point - params.eye_pos).len();
+    }
+
     Vec3D Camera::get_sight_direction() const {
         return params.sight_dir;
     }
@@ -27,6 +31,10 @@ namespace tdr {
 
     Vec3D Camera::get_rightwards_perpendicular() const {
         return params.viewport_horiz;
+    }
+
+    RGB24 Camera::transform_color(Vec3D color) const {
+        return (color * Vec3D {256, 256, 256}).clamp({0, 0, 0}, {255, 255, 255}).cast<RGB24::ScalarType>();
     }
 
     void Camera::move_along(Vec3D direction) {

@@ -45,7 +45,7 @@ namespace tdr {
 
     void from_json(const Json &json, Scene::Mesh::Triangle &triangle) {
         TDR_ASSERT(json.is_array());
-        TDR_ASSERT(json.size() == 3);
+        TDR_ASSERT(json.size() >= 3);
         TDR_ASSERT(json[0].is_number_integer());
         TDR_ASSERT(json[1].is_number_integer());
         TDR_ASSERT(json[2].is_number_integer());

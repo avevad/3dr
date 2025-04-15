@@ -4,6 +4,7 @@
 
 #include "geom.hpp"
 #include "image.hpp"
+#include "ppm.hpp"
 #include "util.hpp"
 
 namespace tdr {
@@ -11,12 +12,15 @@ namespace tdr {
     class Camera {
     public:
         [[nodiscard]] std::optional<Vec2D> project_onto_viewport(Vec3D point) const;
+        [[nodiscard]] RealD distance_to_eye(Vec3D point) const;
 
         [[nodiscard]] static Camera default_for_viewport_size(ImageBounds viewport_size);
 
         [[nodiscard]] Vec3D get_sight_direction() const;
         [[nodiscard]] Vec3D get_upwards_perpendicular() const;
         [[nodiscard]] Vec3D get_rightwards_perpendicular() const;
+
+        [[nodiscard]] RGB24 transform_color(Vec3D color) const;
 
         void move_along(Vec3D direction);
         void rotate_about(Vec3D axis, Vec3D::ScalarType angle);
