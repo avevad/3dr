@@ -15,10 +15,12 @@ cmake --build _build/
    ```shell 
    _build/3dr-convert samples/1.obj | _build/3dr | ffplay -i -
    ```
+   ![Screenshot1](./scr1.png)
 1. Render dynamic scene:
    ```shell 
    _build/3dr -s samples/scene.json -c samples/camera.jsons | ffplay -framerate 60 -i -
    ```
+   ![Screenshot2](./scr2.png)
 1. Render real-time with capture of keyboard input:
    ```shell 
    _build/3dr-ccapture /dev/input/event4 | _build/3dr -s samples/scene.json -c /dev/stdin | ffplay -framerate 60 -i -
