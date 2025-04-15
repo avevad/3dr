@@ -51,6 +51,9 @@ namespace tdr {
         auto x0 = std::min({u_i.x, v_i.x, w_i.x}), x1 = std::max({u_i.x, v_i.x, w_i.x});
         auto y0 = std::min({u_i.y, v_i.y, w_i.y}), y1 = std::max({u_i.y, v_i.y, w_i.y});
         auto uz = camera.distance_to_eye(u), vz = camera.distance_to_eye(v), wz = camera.distance_to_eye(w);
+        auto normal = (v - u).cross(w - u);
+        normal = normal * (-1 / normal.len());
+        auto uc = shade_color(u, normal, color), vc = shade_color(v, normal, color), wc = shade_color(w, normal, color);
         std::pair box = {
             ImageCoords {x0, y0}.clamp({0, 0}, viewport.get_size() - ImageBounds {1, 1}),
             ImageCoords {x1, y1}.clamp({0, 0}, viewport.get_size() - ImageBounds {1, 1})
@@ -71,7 +74,8 @@ namespace tdr {
                 auto z = uz * bc_u + vz * bc_v + wz * bc_w;
                 if (z < zb.pixel({x, y})) {
                     zb.pixel({x, y}) = z;
-                    viewport.pixel({x, y}) = camera.transform_color(color);
+                    auto c = uc * bc_u + vc * bc_v + wc * bc_w;
+                    viewport.pixel({x, y}) = camera.transform_color(c);
                 }
             }
         }
@@ -105,6 +109,19 @@ namespace tdr {
                 }
             }
         }
+    }
+
+    Vec3D Renderer::shade_color(Vec3D point, Vec3D normal, Vec3D color) const {
+        auto luminance = scene.ambient_light;
+        for (const auto &light : scene.direct_lights) {
+            auto direction_norm = light.direction * (1 / light.direction.len());
+            auto cur_lum = normal.dot(direction_norm);
+            if (cur_lum < 0) {
+                cur_lum = 0;
+            }
+            luminance += cur_lum;
+        }
+        return color * luminance;
     }
 
 }

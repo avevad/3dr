@@ -12,6 +12,16 @@ namespace tdr {
         for (Scene::Mesh mesh : meshes) {
             scene.meshes.push_back(mesh);
         }
+
+        if (json.contains("a")) {
+            scene.ambient_light = json["a"];
+        } else {
+            scene.ambient_light = 0.5;
+        }
+
+        if (json.contains("l")) {
+            scene.direct_lights = json["l"];
+        }
     }
 
     void from_json(const Json &json, Scene::Mesh &mesh) {
@@ -63,8 +73,20 @@ namespace tdr {
         triangle = {json[0], json[1], json[2], material};
     }
 
+    void from_json(const Json &json, Scene::LightSource &light) {
+        light = Scene::LightSource{
+            .center = {json["c"][0], json["c"][1], json["c"][2]},
+            .direction = {json["d"][0], json["d"][1], json["d"][2]},
+            .intensity = json["i"]
+        };
+    }
+
     void to_json(Json &json, const Scene &scene) {
-        json = {{"m", Json(scene.meshes)}};
+        json = {
+            {"m", Json(scene.meshes)},
+            {"a", Json(scene.ambient_light)},
+            {"l", Json(scene.direct_lights)}
+        };
     }
 
     void to_json(Json &json, const Scene::Mesh &mesh) {
@@ -83,6 +105,14 @@ namespace tdr {
         if (auto *s_mt = std::get_if<Scene::Mesh::SolidMaterial>(&triangle.material)) {
             json.push_back(Json{s_mt->color.x, s_mt->color.y, s_mt->color.z});
         }
+    }
+
+    void to_json(Json &json, const Scene::LightSource &light) {
+        json = {
+            {"c", {light.center.x, light.center.y, light.center.z}},
+            {"d", {light.direction.x, light.direction.y, light.direction.z}},
+            {"i", light.intensity}
+        };
     }
 
 

@@ -18,6 +18,7 @@ namespace tdr {
         void render_mesh_triangle(const Camera &camera, Vec3<Vec3D> triangle, Scene::Mesh::Material material);
         void rasterize_triangle(const Camera &camera, Vec3D u, Vec3D v, Vec3D w, Vec3D color);
         void rasterize_line(ImageCoords beg, ImageCoords end);
+        [[nodiscard]] Vec3D shade_color(Vec3D point, Vec3D normal, Vec3D color) const;
 
         Scene scene;
         Canvas<RGB24> viewport;
