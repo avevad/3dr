@@ -3,7 +3,7 @@
 
 namespace tdr {
     PPM PPM::serialize(const ConstCanvas<RGB24> &canvas) {
-        return PPM{canvas};
+        return PPM {canvas};
     }
 
     PPM PPM::serialize(const Image<RGB24> &image) {
@@ -12,7 +12,7 @@ namespace tdr {
 
     PPM::PPM(ConstCanvas<RGB24> canvas) : canvas(canvas) { }
 
-    std::ostream & operator<<(std::ostream &out, const PPM &ppm) {
+    std::ostream &operator<<(std::ostream &out, const PPM &ppm) {
         auto [w, h] = ppm.canvas.get_size();
         out << "P3" << '\n';
         out << w << ' ' << h << '\n';

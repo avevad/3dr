@@ -74,7 +74,7 @@ namespace tdr {
     }
 
     void from_json(const Json &json, Scene::LightSource &light) {
-        light = Scene::LightSource{
+        light = Scene::LightSource {
             .center = {json["c"][0], json["c"][1], json["c"][2]},
             .direction = {json["d"][0], json["d"][1], json["d"][2]},
             .intensity = json["i"]
@@ -103,7 +103,7 @@ namespace tdr {
     void to_json(Json &json, const Scene::Mesh::Triangle &triangle) {
         json = {triangle.u, triangle.v, triangle.w};
         if (auto *s_mt = std::get_if<Scene::Mesh::SolidMaterial>(&triangle.material)) {
-            json.push_back(Json{s_mt->color.x, s_mt->color.y, s_mt->color.z});
+            json.push_back(Json {s_mt->color.x, s_mt->color.y, s_mt->color.z});
         }
     }
 
