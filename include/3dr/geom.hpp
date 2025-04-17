@@ -35,7 +35,7 @@ namespace tdr {
             };
         }
 
-        Vec2 clamp(Vec2 lo, Vec2 hi) {
+        Vec2 clamp(Vec2 lo, Vec2 hi) const {
             return {
                 std::clamp(x, lo.x, hi.x),
                 std::clamp(y, lo.y, hi.y)
@@ -96,7 +96,7 @@ namespace tdr {
             };
         }
 
-        Vec3 clamp(Vec3 lo, Vec3 hi) {
+        Vec3 clamp(Vec3 lo, Vec3 hi) const {
             return {
                 std::clamp(x, lo.x, hi.x),
                 std::clamp(y, lo.y, hi.y),

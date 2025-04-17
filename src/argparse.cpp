@@ -16,7 +16,7 @@ namespace tdr {
     }
 
     void ArgParser::register_free(const std::function<FreeArgHandlerSignature> &handler) {
-        TDR_ASSERT(!free_handler.has_value());
+        TDR_ASSERT(!free_handler);
         free_handler = handler;
     }
 
@@ -30,22 +30,32 @@ namespace tdr {
         while (next != end) {
             auto cur = *next++;
             if (cur.starts_with('-')) {
-                auto iter = key_handlers.find(cur);
-                if (iter != key_handlers.end()) {
-                    auto handler = iter->second;
-                    handler(cur, next, end);
-                } else {
-                    std::cerr << argv[0] << ": " << cur << ": unknown key argument" << std::endl;
-                    std::exit(1);
-                }
+                handler_key_argument(argv, cur, next, end);
             } else {
-                if (free_handler.has_value()) {
-                    free_handler.value()(cur);
-                } else {
-                    std::cerr << argv[0] << ": free arguments are not accepted" << std::endl;
-                    std::exit(1);
-                }
+                handle_free_argument(argv, cur);
             }
+        }
+    }
+
+    void ArgParser::handle_free_argument(char **argv, const std::string &arg) const {
+        if (free_handler) {
+            free_handler(arg);
+        } else {
+            std::cerr << argv[0] << ": free arguments are not accepted" << std::endl;
+            std::exit(1);
+        }
+    }
+
+    void ArgParser::handler_key_argument(
+        char **argv, const std::string &arg, const std::string *&next, const std::string *end
+    ) const {
+        auto iter = key_handlers.find(arg);
+        if (iter != key_handlers.end()) {
+            auto handler = iter->second;
+            handler(arg, next, end);
+        } else {
+            std::cerr << argv[0] << ": " << arg << ": unknown key argument" << std::endl;
+            std::exit(1);
         }
     }
 
